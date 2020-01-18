@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EShop.DBContext;
+using EShop.Model.User;
+using EShop.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EShop.Controllers
@@ -10,10 +13,17 @@ namespace EShop.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly IGenericRepository<User,UserDbContext> _userRepo; 
+        public ValuesController(IGenericRepository<User,UserDbContext> userRepo)
+        {
+            _userRepo = userRepo;
+        }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            _userRepo.Insert(new User("Dan", "Toma", "1234-5678-9136-5321", "Pitesti", "Roumania", "danT@gmail.com"));
+            _userRepo.Save();
             return new string[] { "value1", "value2" };
         }
 
