@@ -16,11 +16,10 @@ namespace EShop.DBContext
         }
         public DbContext Resolve(Type type)
         {
-            if (type == typeof(UserDbContext)) return _serviceProvider.GetService<UserDbContext>();
-            if (type == typeof(LocationDbContext)) return _serviceProvider.GetService<LocationDbContext>();
-            if (type == typeof(BasketDbContext)) return _serviceProvider.GetService<BasketDbContext>();
-            if (type == typeof(ProductDbContext)) return _serviceProvider.GetService<ProductDbContext>();
-            if (type == typeof(OrderDbContext)) return _serviceProvider.GetService<OrderDbContext>();
+            if (type == typeof(RoDbContext)) return _serviceProvider.GetService<RoDbContext>();
+            if (type == typeof(BgDbContext)) return _serviceProvider.GetService<BgDbContext>();
+            if (type == typeof(SrDbContext)) return _serviceProvider.GetService<SrDbContext>();
+            if (type == typeof(UkDbContext)) return _serviceProvider.GetService<UkDbContext>();
 
             throw new NotImplementedException();
         }

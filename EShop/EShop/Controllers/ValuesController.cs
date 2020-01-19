@@ -13,8 +13,8 @@ namespace EShop.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private readonly IGenericRepository<User,UserDbContext> _userRepo; 
-        public ValuesController(IGenericRepository<User,UserDbContext> userRepo)
+        private readonly IGenericRepository<User,RoDbContext> _userRepo; 
+        public ValuesController(IGenericRepository<User, RoDbContext> userRepo)
         {
             _userRepo = userRepo;
         }
@@ -22,7 +22,7 @@ namespace EShop.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            _userRepo.Insert(new User("Dan", "Toma", "1234-5678-9136-5321", "Pitesti", "Roumania", "danT@gmail.com"));
+            _userRepo.Insert(new User("Dan", "Toma", "1234-5678-9136-5321", "Pitesti", "Roumania", "danT@gmail.com","pass1234"));
             _userRepo.Save();
             return new string[] { "value1", "value2" };
         }

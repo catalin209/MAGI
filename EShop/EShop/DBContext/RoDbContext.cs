@@ -1,4 +1,6 @@
-﻿using EShop.Model;
+﻿using EShop.Model.Location;
+using EShop.Model.Order;
+using EShop.Model.Product;
 using EShop.Model.User;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,13 +10,12 @@ using System.Threading.Tasks;
 
 namespace EShop.DBContext
 {
-    public class UserDbContext : DbContext
+    public class RoDbContext : BaseContext
     {
-        public UserDbContext(DbContextOptions<UserDbContext> options)
-        : base(options)
+        public RoDbContext(DbContextOptions<RoDbContext> options) : base(DbContextException.ChangeOptionsType<BaseContext>(options))
         {
         }
-        public DbSet<User> Users { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

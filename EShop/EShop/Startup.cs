@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -32,41 +33,50 @@ namespace EShop
         {
             services.AddMvc().
                 SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            
-
+            services.AddSingleton<BaseContext>();
             services
                 .AddEntityFrameworkSqlServer()
                 .AddSqlServerConfiguration(Configuration)
-                .AddDbContext<UserDbContext>(options => options.UseSqlServer(SqlServerConfiguration.UserConnection))
-                .AddDbContext<LocationDbContext>(options => options.UseSqlServer(SqlServerConfiguration.LocationConnection))
-                .AddDbContext<BasketDbContext>(options => options.UseSqlServer(SqlServerConfiguration.BasketConnection))
-                .AddDbContext<OrderDbContext>(options => options.UseSqlServer(SqlServerConfiguration.OrderConnection))
-                .AddDbContext<ProductDbContext>(options => options.UseSqlServer(SqlServerConfiguration.ProductConnection));
-
-            services.AddTransient<IDbContextResolver, DbContextResolver>();
-            services.AddTransient(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
+                .AddDbContext<RoDbContext>(options => options.UseSqlServer(SqlServerConfiguration.RoConnection))
+                .AddDbContext<BgDbContext>(options => options.UseSqlServer(SqlServerConfiguration.BgConnection))
+                .AddDbContext<SrDbContext>(options => options.UseSqlServer(SqlServerConfiguration.SrConnection))
+                .AddDbContext<UkDbContext>(options => options.UseSqlServer(SqlServerConfiguration.UkConnection))
+                .AddTransient<IDbContextResolver, DbContextResolver>()
+                .AddTransient(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
 
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-          
+
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                var userContext = serviceScope.ServiceProvider.GetRequiredService<UserDbContext>();
-                var locationContext = serviceScope.ServiceProvider.GetRequiredService<LocationDbContext>();
-                var basketContext = serviceScope.ServiceProvider.GetRequiredService<BasketDbContext>();
-                var orderContext = serviceScope.ServiceProvider.GetRequiredService<OrderDbContext>();
-                var productContext = serviceScope.ServiceProvider.GetRequiredService<ProductDbContext>();
-                userContext.Database.Migrate();
-                locationContext.Database.Migrate();
-                basketContext.Database.Migrate();
-                orderContext.Database.Migrate();
-                productContext.Database.Migrate();
-            }
+                var roContext = serviceScope.ServiceProvider.GetRequiredService<RoDbContext>();
+                var bgContext = serviceScope.ServiceProvider.GetRequiredService<BgDbContext>();
+                var srContext = serviceScope.ServiceProvider.GetRequiredService<SrDbContext>();
+                var ukContext = serviceScope.ServiceProvider.GetRequiredService<UkDbContext>();
+                
 
-            app.UseHttpsRedirection().UseMvc();
+                if (!(roContext.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
+                {
+                    roContext.Database.Migrate();
+                    bgContext.Database.Migrate();
+                    srContext.Database.Migrate();
+                    ukContext.Database.Migrate();
+                    EShopSeed.CreateSeed(roContext, bgContext, srContext, ukContext);
+                }
+                else
+                {
+                    roContext.Database.Migrate();
+                    bgContext.Database.Migrate();
+                    srContext.Database.Migrate();
+                    ukContext.Database.Migrate();
+                }
+
+            }
+            app.UseHttpsRedirection()
+                .UseMvc();
         }
     }
 }
+

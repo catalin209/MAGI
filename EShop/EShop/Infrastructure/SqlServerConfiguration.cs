@@ -13,11 +13,10 @@ namespace EShop.Infrastructure
         public static IConfiguration Configuration { get; set; }
         public static IConfigurationSection Section => Configuration.GetSection("ConnectionStrings");
 
-        public static string UserConnection => Section.GetSection("UserConnection").Get<string>();
-        public static string LocationConnection => Section.GetSection("LocationConnection").Get<string>();
-        public static string BasketConnection => Section.GetSection("BasketConnection").Get<string>();
-        public static string OrderConnection => Section.GetSection("OrderConnection").Get<string>();
-        public static string ProductConnection => Section.GetSection("ProductConnection").Get<string>();
+        public static string RoConnection => Section.GetSection("RoConnection").Get<string>();
+        public static string BgConnection => Section.GetSection("BgConnection").Get<string>();
+        public static string SrConnection => Section.GetSection("SrConnection").Get<string>();
+        public static string UkConnection => Section.GetSection("UkConnection").Get<string>();
 
         public static IServiceCollection AddSqlServerConfiguration(this IServiceCollection services, IConfiguration configuration)
         {

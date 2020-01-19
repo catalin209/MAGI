@@ -5,8 +5,13 @@ using System.Threading.Tasks;
 
 namespace EShop.Model.Product
 {
-    public class CatalogItem
+    public class CatalogType
     {
+        public CatalogType(string name)
+        {
+            Name = name;
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
     }
