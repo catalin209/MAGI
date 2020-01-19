@@ -15,7 +15,6 @@ namespace EShop.Model.User
             Address = address;
             Country = country;
             Email = email;
-            Password = password;
         }
 
         public Guid UserId { get; set; }

@@ -1,14 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EShop.DBContext;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EShop.DBContext
+namespace EShop.Resolver
 {
     public interface IDbContextResolver
     {
-        DbContext Resolve(Type type);
+        BaseContext Resolve(Type type);
     }
 
 }

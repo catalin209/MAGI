@@ -8,7 +8,7 @@ namespace EShop.DBContext
 {
     public class SrDbContext : BaseContext
     {
-        public SrDbContext(DbContextOptions<SrDbContext> options) : base(DbContextException.ChangeOptionsType<BaseContext>(options))
+        public SrDbContext(DbContextOptions<SrDbContext> options) : base(DbContextExtension.ChangeOptionsType<BaseContext>(options))
         {
         }
 

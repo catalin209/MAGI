@@ -12,7 +12,7 @@ namespace EShop.DBContext
 {
     public class RoDbContext : BaseContext
     {
-        public RoDbContext(DbContextOptions<RoDbContext> options) : base(DbContextException.ChangeOptionsType<BaseContext>(options))
+        public RoDbContext(DbContextOptions<RoDbContext> options) : base(DbContextExtension.ChangeOptionsType<BaseContext>(options))
         {
         }
 

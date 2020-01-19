@@ -1,11 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EShop.DBContext;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace EShop.DBContext
+namespace EShop.Resolver
 {
     public class DbContextResolver : IDbContextResolver
     {
@@ -13,8 +10,9 @@ namespace EShop.DBContext
         public DbContextResolver(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+            _serviceProvider.GetService<RoDbContext>();
         }
-        public DbContext Resolve(Type type)
+        public BaseContext Resolve(Type type)
         {
             if (type == typeof(RoDbContext)) return _serviceProvider.GetService<RoDbContext>();
             if (type == typeof(BgDbContext)) return _serviceProvider.GetService<BgDbContext>();

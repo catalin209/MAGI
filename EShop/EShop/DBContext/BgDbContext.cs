@@ -11,7 +11,7 @@ namespace EShop.DBContext
 {
     public class BgDbContext : BaseContext 
     {
-        public BgDbContext(DbContextOptions<BgDbContext> options) : base(DbContextException.ChangeOptionsType<BaseContext>( options))
+        public BgDbContext(DbContextOptions<BgDbContext> options) : base(DbContextExtension.ChangeOptionsType<BaseContext>( options))
         {
         }
 

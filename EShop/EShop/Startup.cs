@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EShop.DBContext;
+﻿using EShop.DBContext;
 using EShop.Infrastructure;
 using EShop.Repository;
+using EShop.Resolver;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace EShop
 {
@@ -42,6 +36,7 @@ namespace EShop
                 .AddDbContext<SrDbContext>(options => options.UseSqlServer(SqlServerConfiguration.SrConnection))
                 .AddDbContext<UkDbContext>(options => options.UseSqlServer(SqlServerConfiguration.UkConnection))
                 .AddTransient<IDbContextResolver, DbContextResolver>()
+                .AddTransient<IRepositoryResolver,RepositoryResolver>()
                 .AddTransient(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
 
         }

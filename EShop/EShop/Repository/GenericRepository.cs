@@ -1,15 +1,14 @@
 ﻿using EShop.DBContext;
+using EShop.Resolver;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace EShop.Repository
 {
-    public class GenericRepository<T,Q> : IGenericRepository<T,Q> where T : class where Q : DbContext
+    public class GenericRepository<T,Q> : IGenericRepository<T,Q> where T : class where Q : BaseContext
     {
-        private readonly DbContext _context;
+        private readonly BaseContext _context;
         private readonly DbSet<T> table;
 
         public GenericRepository(IDbContextResolver _dbContextResolver)

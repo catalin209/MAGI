@@ -8,7 +8,7 @@ namespace EShop.DBContext
 {
     public class UkDbContext : BaseContext
     {
-        public UkDbContext(DbContextOptions<UkDbContext> options) : base(DbContextException.ChangeOptionsType<BaseContext>(options))
+        public UkDbContext(DbContextOptions<UkDbContext> options) : base(DbContextExtension.ChangeOptionsType<BaseContext>(options))
         {
         }
 

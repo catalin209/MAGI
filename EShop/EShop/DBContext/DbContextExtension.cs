@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 namespace EShop.DBContext
 {
-    public class DbContextException
+    public class DbContextExtension
     {
         public static DbContextOptions<T> ChangeOptionsType<T>(DbContextOptions options) where T : DbContext
         {
