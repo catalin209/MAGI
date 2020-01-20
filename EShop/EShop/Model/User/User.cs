@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EShop.Model.Location;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace EShop.Model.User
             Email = email;
         }
 
-        public Guid UserId { get; set; }
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string SurName  { get; set; }
         public string Password { get; set; }
@@ -25,5 +26,7 @@ namespace EShop.Model.User
         public string Address { get; set; }
         public string Country { get; set; }
         public string Email { get; set; }
+        public List<UserLocation> UserLocations { get; set; }
+        public List<Order.Order> Orders { get; set; }
     }
 }

@@ -9,5 +9,7 @@ namespace EShop.Model.Basket
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        public User.User User { get; set; }
+        public List<BasketItem> BasketItems { get; set; }
     }
 }
