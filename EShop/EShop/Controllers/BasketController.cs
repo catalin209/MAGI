@@ -23,7 +23,7 @@ namespace EShop.Controllers
         }
 
         // GET: api/Basket/5
-        [HttpGet("{countryId}/{userId}")]
+        [HttpGet("getbasket")]
         public ActionResult<Basket> Get(int countryId, int userId)
         {
             Basket model = new Basket();
@@ -49,8 +49,8 @@ namespace EShop.Controllers
         }
 
         // PUT: api/Basket/5
-        [HttpPost("put/{id}")]
-        public ActionResult Put(int countryId, int id, [FromBody] int productId)
+        [HttpPost("put")]
+        public ActionResult Put(int countryId, int id, int productId)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace EShop.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpPost("delete/{id}")]
+        [HttpPost("delete")]
         public ActionResult Delete(int countryId, int id)
         {
             try

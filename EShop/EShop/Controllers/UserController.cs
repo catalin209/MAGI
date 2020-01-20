@@ -1,4 +1,5 @@
 ﻿using EShop.DTO;
+using EShop.Model.Basket;
 using EShop.Model.Enums;
 using EShop.Model.User;
 using EShop.Resolver;
@@ -31,33 +32,42 @@ namespace EShop.Controllers
         }
 
         // POST api/values
-        [HttpPost]
-        public ActionResult<User> Post([FromBody] UserDto userDto)
+        [HttpPost("register")]
+        public ActionResult<User> Post(string username, string password, int countryId)
         {
-            var result = _repoResolver.Resolve<User>(userDto.Country).Insert(new User()
+            var repoUser = _repoResolver.Resolve<User>(countryId);
+            var result = repoUser.Insert(new User()
             {
-                FirstName = userDto.Username,
-                Country = userDto.Country,
-                Password = userDto.Password,
+                FirstName = username,
+                Country = countryId,
+                Password = password,
             });
+            repoUser.Save();
+
+            var repoBasket = _repoResolver.Resolve<Basket>(countryId);
+            repoBasket.Insert(new Basket
+            {
+                UserId = result.Id
+            });
+            repoBasket.Save();
+
             foreach (int cId in Enum.GetValues(typeof(Country)))
             {
                 var repo = _repoResolver.Resolve<UserPrerequisites>(cId);
                 repo.Insert(new UserPrerequisites
                 {
                     Id = result.Id,
-                    Username = userDto.Username,
-                    Country = userDto.Country
+                    Username = username,
+                    Country = countryId
                 });
                 repo.Save();
             }
-            _repoResolver.Resolve<User>(userDto.Country).Save();
 
             return result;
         }
 
         [HttpPost("login")]
-        public ActionResult<User> Post([FromBody] UserLoginDto userLoginDto)
+        public ActionResult<User> Post(string username, string password)
         {
             User result = null;
             try
@@ -77,9 +87,9 @@ namespace EShop.Controllers
                             throw ex;
                     }
                 }
-                int countryId = prerequisites.FirstOrDefault(p => p.Username == userLoginDto.Username).Country;
+                int countryId = prerequisites.FirstOrDefault(p => p.Username == username).Country;
                 var repo = _repoResolver.Resolve<User>(countryId);
-                result = repo.GetAll().FirstOrDefault(x => x.Username == userLoginDto.Username && x.Password == userLoginDto.Password);
+                result = repo.GetAll().FirstOrDefault(x => x.Username == username && x.Password == password);
             }
             catch (Exception)
             {
