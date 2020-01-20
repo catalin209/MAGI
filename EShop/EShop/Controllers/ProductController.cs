@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EShop.Model.Enums;
 using EShop.Model.Product;
 using EShop.Resolver;
+using EShop.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,7 +39,7 @@ namespace EShop.Controllers
                     }
                     catch (Exception ex)
                     {
-                        if (cId >= MAX_REPO_INDEX)
+                        if (cId >= Constants.MAX_REPO_INDEX)
                             throw ex;
                     }
                 }

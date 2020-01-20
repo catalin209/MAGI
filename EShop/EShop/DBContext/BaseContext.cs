@@ -17,6 +17,7 @@ namespace EShop.DBContext
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<UserPrerequisites> UserPrerequisites { get; set; }
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<BasketCheckout> BasketCheckouts { get; set; }
         public DbSet<BasketItem> BasketItems { get; set; }
