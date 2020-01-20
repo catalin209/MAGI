@@ -17,6 +17,10 @@ namespace EShop.Model.User
             Country = country;
             Email = email;
         }
+        public User()
+        {
+
+        }
 
         public int Id { get; set; }
         public string FirstName { get; set; }

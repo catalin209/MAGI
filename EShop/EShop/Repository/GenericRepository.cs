@@ -27,9 +27,9 @@ namespace EShop.Repository
             return table.Find(id);
         }
 
-        public void Insert(T obj)
+        public T Insert(T obj)
         {
-            table.Add(obj);
+            return table.Add(obj).Entity;
         }
 
         public void Update(T obj)
