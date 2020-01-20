@@ -8,7 +8,7 @@ namespace EShop.Model.User
 {
     public class User
     {
-        public User(string firstName, string surName, string cardNumber, string address, string country, string email,string password)
+        public User(string firstName, string surName, string cardNumber, string address, int country, string email,string password)
         {
             FirstName = firstName;
             SurName = surName;
@@ -24,9 +24,10 @@ namespace EShop.Model.User
         public string Password { get; set; }
         public string CardNumber { get; set; }
         public string Address { get; set; }
-        public string Country { get; set; }
+        public int Country { get; set; }
         public string Email { get; set; }
         public List<UserLocation> UserLocations { get; set; }
         public List<Order.Order> Orders { get; set; }
+        public Basket.Basket Basket { get; set; }
     }
 }
