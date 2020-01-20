@@ -1,4 +1,5 @@
-﻿using EShop.Model.Location;
+﻿using EShop.Model.Basket;
+using EShop.Model.Location;
 using EShop.Model.Order;
 using EShop.Model.Product;
 using EShop.Model.User;
@@ -16,6 +17,9 @@ namespace EShop.DBContext
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Basket> Baskets { get; set; }
+        public DbSet<BasketCheckout> BasketCheckouts { get; set; }
+        public DbSet<BasketItem> BasketItems { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<UserLocation> UserLocations { get; set; }
         public DbSet<Order> Orders { get; set; }

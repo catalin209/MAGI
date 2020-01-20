@@ -33,8 +33,7 @@ namespace EShop.Controllers
         {
             var result = _repoResolver.Resolve<User>(userDto.Country).Insert(new User()
             {
-                FirstName = userDto.FirstName,
-                SurName = userDto.Surname,
+                FirstName = userDto.Username,
                 Country = userDto.Country,
                 Password = userDto.Password,
             });
@@ -47,7 +46,7 @@ namespace EShop.Controllers
         public ActionResult<User> Post([FromBody] UserLoginDto userLoginDto)
         {
             var repo = _repoResolver.Resolve<User>(userLoginDto.CountryId);
-            var result = repo.GetAll().FirstOrDefault(x => x.FirstName == userLoginDto.FirstName && x.Password == userLoginDto.Password);
+            var result = repo.GetAll().FirstOrDefault(x => x.Username == userLoginDto.Username && x.Password == userLoginDto.Password);
             return result;
         }
 

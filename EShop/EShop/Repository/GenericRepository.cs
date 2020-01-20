@@ -8,8 +8,8 @@ namespace EShop.Repository
 {
     public class GenericRepository<T,Q> : IGenericRepository<T,Q> where T : class where Q : BaseContext
     {
-        private readonly BaseContext _context;
-        private readonly DbSet<T> table;
+        protected readonly BaseContext _context;
+        protected readonly DbSet<T> table;
 
         public GenericRepository(IDbContextResolver _dbContextResolver)
         {

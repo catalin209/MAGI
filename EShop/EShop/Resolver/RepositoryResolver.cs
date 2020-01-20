@@ -1,4 +1,5 @@
 ﻿using EShop.DBContext;
+using EShop.Model.Basket;
 using EShop.Repository;
 using Microsoft.Extensions.DependencyInjection;
 using System;

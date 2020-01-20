@@ -30,7 +30,7 @@ namespace EShop.Infrastructure
         {
             for (int i = 0; i < 100; i++)
             {
-                var product = new Product(i % 2 == 0 ? "Nvidia RTX " + i : "Ryzen " + i, i % 2 == 0 ? "GPU NUMBER" + i : "CPU number", 100 * i, "Germany", i % 2 + 1);
+                var product = new Product(i % 2 == 0 ? "Nvidia RTX " + i : "Ryzen " + i, i % 2 == 0 ? "GPU NUMBER" + i : "CPU number", 100 * i, 1, i % 2 + 1);
                 context.Products.Add(product);
                 context.SaveChanges();
             }

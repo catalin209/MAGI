@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EShop.Model.Basket;
+using EShop.Model.Product;
 using EShop.Model.User;
 using EShop.Repository;
 using EShop.Resolver;
@@ -11,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EShop.Controllers
 {
-    [Route("api/basket")]
+    [Route("api/[controller]")]
     [ApiController]
     public class BasketController : ControllerBase
     {
@@ -22,34 +23,43 @@ namespace EShop.Controllers
         }
 
         // GET: api/Basket/5
-        [HttpGet("{id}")]
+        [HttpGet("{countryId}/{userId}")]
         public ActionResult<Basket> Get(int countryId, int userId)
         {
             Basket model = new Basket();
             try
             {
-                var repo = _repoResolver.Resolve<Basket>(countryId);
-                model = repo.GetAll().First(b => b.UserId == userId);
+                var repoBasket = _repoResolver.Resolve<Basket>(countryId);
+                var repoProduct = _repoResolver.Resolve<Product>(countryId);
+                model = repoBasket.GetAll().First(b => b.UserId == userId);
                 model.BasketItems = _repoResolver.Resolve<BasketItem>(countryId)
                                                  .GetAll()
                                                  .Where(bi => bi.BasketId == model.Id)
                                                  .ToList();
+                foreach(BasketItem bi in model.BasketItems)
+                {
+                    bi.Product = repoProduct.GetById(bi.Id);
+                }
             }
             catch (Exception)
             {
                 return BadRequest(new { success = false, message = "Could not get basket!" });
             }
-            return Ok(model);
+            return Ok(new { basketId = model.Id, productList = model.BasketItems.Select(bi => bi.Product), totalCount = model.BasketItems.Count });
         }
 
         // PUT: api/Basket/5
-        [HttpPost("/put/{id}")]
-        public ActionResult Put(int countryId, int id, [FromBody] BasketItem item)
+        [HttpPost("put/{id}")]
+        public ActionResult Put(int countryId, int id, [FromBody] int productId)
         {
             try
             {
                 var repo = _repoResolver.Resolve<BasketItem>(countryId);
-                item.BasketId = id;
+                BasketItem item = new BasketItem
+                {
+                    BasketId = id,
+                    ProductId = productId
+                };
                 repo.Insert(item);
                 repo.Save();
             }
