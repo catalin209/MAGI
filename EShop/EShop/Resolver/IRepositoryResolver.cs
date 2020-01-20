@@ -6,7 +6,7 @@ namespace EShop.Resolver
 {
     public interface IRepositoryResolver
     {
-        IGenericRepository<T, BaseContext> Resolve<T>(int countryId)
+        IGenericRepository<T, BaseContext> Resolve<T>(CountryType countryId)
            where T : class;
     }
 }

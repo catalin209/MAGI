@@ -26,9 +26,9 @@ namespace EShop.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<IEnumerable<Product>> Get(int id)
+        public ActionResult<IEnumerable<Product>> Get(CountryType country, int id)
         {
-            var products = _repoResolver.Resolve<Product>(1).GetAll().Where(x => x.CategoryId == id);
+            var products = _repoResolver.Resolve<Product>(country).GetAll().Where(x => x.CategoryId == id);
 
             return Ok(products);
         }
