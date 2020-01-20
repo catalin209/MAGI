@@ -22,7 +22,7 @@ namespace EShop.Controllers
         }
 
         // GET: api/Basket/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public ActionResult<Basket> Get(int countryId, int userId)
         {
             Basket model = new Basket();

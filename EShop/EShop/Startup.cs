@@ -44,6 +44,11 @@ namespace EShop
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
 
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var roContext = serviceScope.ServiceProvider.GetRequiredService<RoDbContext>();
