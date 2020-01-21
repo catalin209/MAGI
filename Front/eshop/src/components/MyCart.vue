@@ -4,7 +4,7 @@
         <div class="close-popup" @click="closePopup">X</div>
         <div v-if="products.length > 0" class="products-container">
             <div class="product-container" v-for="product in products" :key="product.id">
-                <img :src="`../assets/product-${product.id}.png`"/>
+                <img :src="`/product-${product.id}.png`"/>
                 <span class="name">{{`${product.id} - ${product.name}`}}</span>
                 <span class="price">{{product.price}}&#x24;</span>
                 <button class="btn" @click="removeItem(product.id)">Remove <i class="remove"/></button>
@@ -85,6 +85,7 @@
 
             removeItem(id) {
                 this.products = this.products.filter(product => product.id != id)
+                if (this.products.length == 0) this.$emit('closeTheCart')
             },
         },
     }
@@ -143,6 +144,7 @@
         padding-top: 30px;
     }
     .cart-form .product-container img {
+        min-width: 100px;
         width: 100px;
         height: 100px;
         margin-bottom: 30px;
