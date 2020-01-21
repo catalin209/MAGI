@@ -4,7 +4,7 @@
             <img :src="`../assets/product-${product.id}.png`"/>
             <span class="name">{{`${product.id} - ${product.name}`}}</span>
             <span class="price">{{product.price}}&#x24;</span>
-            <button class="btn">Add to cart <i class="cart"/></button>
+            <button class="btn" @click="addToCart(product)">Add to cart <i class="cart"/></button>
         </div>
     </div>
 </template>
@@ -66,8 +66,8 @@
         },
 
         methods: {
-            selectTab(index) {
-                this.$emit('selectTab', index)
+            addToCart(product) {
+                this.$emit('addToCart', product)
             },
         },
     }

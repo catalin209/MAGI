@@ -1,12 +1,17 @@
 <template>
 <div class="popup-overlay">
-    <div v-if="!register" class="cart-form">
+    <div class="cart-form">
         <div class="close-popup" @click="closePopup">X</div>
-        <div class="product-container" v-for="product in products" :key="product.id">
-            <img :src="`../assets/product-${product.id}.png`"/>
-            <span class="name">{{`${product.id} - ${product.name}`}}</span>
-            <span class="price">{{product.price}}&#x24;</span>
-            <button class="btn">Remove <i class="remove"/></button>
+        <div v-if="products.length > 0" class="products-container">
+            <div class="product-container" v-for="product in products" :key="product.id">
+                <img :src="`../assets/product-${product.id}.png`"/>
+                <span class="name">{{`${product.id} - ${product.name}`}}</span>
+                <span class="price">{{product.price}}&#x24;</span>
+                <button class="btn" @click="removeItem(product.id)">Remove <i class="remove"/></button>
+            </div>
+        </div>
+        <div class="button-container">
+            <button class="cart-button">Checkout</button>
         </div>
     </div>
 </div>
@@ -15,49 +20,59 @@
 
 <script>
     export default {
+        props: {
+            shopCartData: {
+                type: Array
+            },
+        },
+
+        created() {
+            this.products = this.shopCartData
+        },
+
         data: () => {
             return {
                 products: [
-                    {
-                        id: 1,
-                        name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum turpis, imperdiet id metus a, volutpat malesuada odio. Aliquam et leo odio.',
-                        price: 100
-                    },
-                    {
-                        id: 2,
-                        name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum turpis, imperdiet id metus a, volutpat malesuada odio. Aliquam et leo odio.',
-                        price: 200
-                    },
-                    {
-                        id: 3,
-                        name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum turpis, imperdiet id metus a, volutpat malesuada odio. Aliquam et leo odio.',
-                        price: 300
-                    },
-                    {
-                        id: 4,
-                        name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum turpis, imperdiet id metus a, volutpat malesuada odio. Aliquam et leo odio.',
-                        price: 400
-                    },
-                    {
-                        id: 5,
-                        name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum turpis, imperdiet id metus a, volutpat malesuada odio. Aliquam et leo odio.',
-                        price: 500
-                    },
-                    {
-                        id: 6,
-                        name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum turpis, imperdiet id metus a, volutpat malesuada odio. Aliquam et leo odio.',
-                        price: 600
-                    },
-                    {
-                        id: 7,
-                        name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum turpis, imperdiet id metus a, volutpat malesuada odio. Aliquam et leo odio.',
-                        price: 700
-                    },
-                    {
-                        id: 8,
-                        name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum turpis, imperdiet id metus a, volutpat malesuada odio. Aliquam et leo odio.',
-                        price: 800
-                    },
+                    // {
+                    //     id: 1,
+                    //     name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum turpis, imperdiet id metus a, volutpat malesuada odio. Aliquam et leo odio.',
+                    //     price: 100
+                    // },
+                    // {
+                    //     id: 2,
+                    //     name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum turpis, imperdiet id metus a, volutpat malesuada odio. Aliquam et leo odio.',
+                    //     price: 200
+                    // },
+                    // {
+                    //     id: 3,
+                    //     name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum turpis, imperdiet id metus a, volutpat malesuada odio. Aliquam et leo odio.',
+                    //     price: 300
+                    // },
+                    // {
+                    //     id: 4,
+                    //     name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum turpis, imperdiet id metus a, volutpat malesuada odio. Aliquam et leo odio.',
+                    //     price: 400
+                    // },
+                    // {
+                    //     id: 5,
+                    //     name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum turpis, imperdiet id metus a, volutpat malesuada odio. Aliquam et leo odio.',
+                    //     price: 500
+                    // },
+                    // {
+                    //     id: 6,
+                    //     name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum turpis, imperdiet id metus a, volutpat malesuada odio. Aliquam et leo odio.',
+                    //     price: 600
+                    // },
+                    // {
+                    //     id: 7,
+                    //     name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum turpis, imperdiet id metus a, volutpat malesuada odio. Aliquam et leo odio.',
+                    //     price: 700
+                    // },
+                    // {
+                    //     id: 8,
+                    //     name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum turpis, imperdiet id metus a, volutpat malesuada odio. Aliquam et leo odio.',
+                    //     price: 800
+                    // },
                 ],
                 bascketId: 0,
             }
@@ -66,6 +81,10 @@
         methods: {
             closePopup() {
                 this.$emit('closeTheCart')
+            },
+
+            removeItem(id) {
+                this.products = this.products.filter(product => product.id != id)
             },
         },
     }
@@ -76,7 +95,7 @@
     .popup-overlay {
         width: 100%;
         height: 100vh;
-        position: absolute;
+        position: fixed;
         top: 0px;
         left: 0px;
         z-index: 9;
@@ -89,26 +108,35 @@
         box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.75);
         display: flex;
         justify-content: flex-start;
-        align-items: center;
+        align-items: flex-start;
         flex-direction: column;
         overflow: hidden;
-        position: relative;
         width: 750px;
-        min-height: 450px;
+        min-height: 520px;
         position: absolute;
         top: calc(50% - 315px);
         left: calc(50% - 375px);
         margin: 0px;
-        justify-content: center;
-        overflow: visible;
+        padding: 20px 0px;
+    }
+    .cart-form .products-container {
+        width: 700px;
+        height: 450px;
+        position: relative;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        overflow: auto;
+        padding-left: 20px;
     }
     .cart-form .product-container {
-        width: 80%;
-        margin-right: 30px;
+        width: 95%;
+        margin-right: 10px;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100px;
+        min-height: 100px;
         overflow: hidden;
         position: relative;
         margin-bottom: 30px;
@@ -137,6 +165,7 @@
         font-size: 24px;
         color: #41b883;
         margin-bottom: 30px;
+        min-width: 100px;
     }
     .cart-form .product-container .btn {
         display: inline-flex;
@@ -160,6 +189,8 @@
         background-color: #d3d3d3;
         border-color: #ddd;
         padding: 10px;
+        margin-left: 20px;
+        margin-bottom: 30px;
     }
     .cart-form .product-container .btn .remove {
         background: url('../assets/remove.png') center no-repeat;
@@ -213,7 +244,7 @@
         display: flex;
         justify-content: space-evenly;
         align-items: center;
-        margin-bottom: 10px;
-        width: 80%;
+        width: 100%;
+        margin-top: 30px;
     }
 </style>

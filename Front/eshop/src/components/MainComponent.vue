@@ -8,8 +8,12 @@
         />
         <Filters :selectedFilters="filters" @selectFilters="selectFilters"/>
         <LoadingSpinner v-if="isLoading"/>
-        <Products v-else/>
-        <MyCart v-if="showCart" @closeTheCart="closeTheCart"/>
+        <Products v-else @addToCart="addToCart"/>
+        <MyCart 
+            v-if="showCart"
+            :shopCartData="shopCartData"
+            @closeTheCart="closeTheCart"
+        />
     </div>
     <div v-else class="main-container">
         <Login @login="login"/>
@@ -63,6 +67,7 @@
                 loggedIn: false,
                 globalSearchName: '',
                 showCart: false,
+                shopCartData: [],
             }
         },
 
@@ -95,11 +100,15 @@
             },
 
             showTheCart() {
-                this.showCart = true
+                if (this.shopCartData.length > 0) this.showCart = true
             },
 
             closeTheCart() {
                 this.showCart = false
+            },
+
+            addToCart(product) {
+                this.shopCartData.push(product)
             },
 
             selectFilters(f) {
