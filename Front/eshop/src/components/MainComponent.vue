@@ -4,10 +4,12 @@
             :username="username"
             :selectedTab="selectedTab"
             @globalSearch="globalSearch"
+            @showTheCart="showTheCart"
         />
         <Filters :selectedFilters="filters" @selectFilters="selectFilters"/>
         <LoadingSpinner v-if="isLoading"/>
         <Products v-else/>
+        <MyCart v-if="showCart" @closeTheCart="closeTheCart"/>
     </div>
     <div v-else class="main-container">
         <Login @login="login"/>
@@ -20,16 +22,22 @@
     import Filters from './Filters.vue'
     import Products from './Products.vue'
     import Login from './Login.vue'
+    import MyCart from './MyCart.vue'
+    import JQuery from 'jquery'
+    let $ = JQuery
     export default {
         components: {
             Navbar,
             LoadingSpinner,
             Filters,
             Products,
-            Login
+            Login,
+            MyCart
         },
 
         created() {
+            // eslint-disable-next-line no-console
+            this.loggedIn = true
         },
 
         props: {
@@ -54,6 +62,7 @@
                 countryId: 0,
                 loggedIn: false,
                 globalSearchName: '',
+                showCart: false,
             }
         },
 
@@ -85,6 +94,14 @@
                 }
             },
 
+            showTheCart() {
+                this.showCart = true
+            },
+
+            closeTheCart() {
+                this.showCart = false
+            },
+
             selectFilters(f) {
                 this.filters = f
                 if (!this.isLoading) {
@@ -102,8 +119,15 @@
             },
 
             login(data) {
-                this.loggedIn = true
-                this.username =  data.username
+                // eslint-disable-next-line no-console
+                console.log(data)
+                $.get("http://localhost:5000/User/login", {Username : data.username, Password : data.password}, response =>{
+                    if(response.FirstName){
+                        this.username = response.FirstName + ' ' + response.LastName
+                        this.countryId = response.CountryId
+                        this.loggedIn = true
+                    }
+                })
             },
         },
     }

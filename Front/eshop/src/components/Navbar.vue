@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="nav-buttons-container">
-            <div class="nav-button action"><i class="cart"/>My Cart</div>
+            <div class="nav-button action" @click="showCart"><i class="cart"/>My Cart</div>
         </div>
     </div>
 </template>
@@ -41,6 +41,9 @@
             },
             globalSearch() {
                 this.$emit('globalSearch', this.globalSearchName)
+            },
+            showCart() {
+                this.$emit('showTheCart')
             },
         },
     }
