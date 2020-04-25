@@ -56,7 +56,7 @@ namespace EShop.Controllers
                 var repo = _repoResolver.Resolve<UserPrerequisites>(cId);
                 repo.Insert(new UserPrerequisites
                 {
-                    Id = result.Id,
+                    UserId = result.Id,
                     Username = username,
                     Country = countryId
                 });
