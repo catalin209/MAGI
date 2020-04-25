@@ -27,18 +27,9 @@ namespace EShop
         {
             services.AddMvc().
                 SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddSingleton<BaseContext>();
-            services
-                .AddEntityFrameworkSqlServer()
-                .AddSqlServerConfiguration(Configuration)
-                .AddDbContext<RoDbContext>(options => options.UseSqlServer(SqlServerConfiguration.RoConnection))
-                .AddDbContext<BgDbContext>(options => options.UseSqlServer(SqlServerConfiguration.BgConnection))
-                .AddDbContext<SrDbContext>(options => options.UseSqlServer(SqlServerConfiguration.SrConnection))
-                .AddDbContext<UkDbContext>(options => options.UseSqlServer(SqlServerConfiguration.UkConnection))
-                .AddTransient<IDbContextResolver, DbContextResolver>()
-                .AddTransient<IRepositoryResolver,RepositoryResolver>()
-                .AddTransient(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
 
+            services
+                .AddEShop(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

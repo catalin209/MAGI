@@ -213,6 +213,12 @@ UpgradeLog*.htm
 *.mdf
 *.ldf
 
+# Visual Studio code coverage results
+*.coverage
+*.coveragexml
+**/coverage
+
+
 # Business Intelligence projects
 *.rdl.data
 *.bim.layout

@@ -7,10 +7,10 @@ namespace EShop.Resolver
     public class DbContextResolver : IDbContextResolver
     {
         private readonly IServiceProvider _serviceProvider;
+
         public DbContextResolver(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _serviceProvider.GetService<RoDbContext>();
         }
         public BaseContext Resolve(Type type)
         {
