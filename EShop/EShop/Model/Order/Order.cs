@@ -9,12 +9,15 @@ namespace EShop.Model.Order
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        public User.User User { get; set; }
         public int BasketCheckoutId { get; set; }
+        public Basket.BasketCheckout BasketCheckout { get; set; }
         public DateTime OrderData { get; set; }
         public double Total { get; set; }
         public int OrderNumber { get; set; }
         public string ShippingCity { get; set; }
         public string ShippingState { get; set; }
         public string ShippingCountry { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
     }
 }

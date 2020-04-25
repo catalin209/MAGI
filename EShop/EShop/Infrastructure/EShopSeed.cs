@@ -28,9 +28,10 @@ namespace EShop.Infrastructure
 
         private static void CreateProducts(BaseContext context)
         {
+            Random rnd = new Random();
             for (int i = 0; i < 100; i++)
             {
-                var product = new Product(i % 2 == 0 ? "Nvidia RTX " + i : "Ryzen " + i, i % 2 == 0 ? "GPU NUMBER" + i : "CPU number", 100 * i, "Germany", i % 2 + 1);
+                var product = new Product(i % 2 == 0 ? "Nvidia RTX " + i : "Ryzen " + i, i % 2 == 0 ? "GPU NUMBER" + i : "CPU number", 100 * i, rnd.Next(1, 4), i % 2 + 1);
                 context.Products.Add(product);
                 context.SaveChanges();
             }

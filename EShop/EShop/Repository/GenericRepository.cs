@@ -8,8 +8,8 @@ namespace EShop.Repository
 {
     public class GenericRepository<T,Q> : IGenericRepository<T,Q> where T : class where Q : BaseContext
     {
-        private readonly BaseContext _context;
-        private readonly DbSet<T> table;
+        protected readonly BaseContext _context;
+        protected readonly DbSet<T> table;
 
         public GenericRepository(IDbContextResolver _dbContextResolver)
         {
@@ -27,9 +27,9 @@ namespace EShop.Repository
             return table.Find(id);
         }
 
-        public void Insert(T obj)
+        public T Insert(T obj)
         {
-            table.Add(obj);
+            return table.Add(obj).Entity;
         }
 
         public void Update(T obj)
