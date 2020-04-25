@@ -1,22 +1,21 @@
 <template>
     <div class="products-container">
         <div class="product-container" v-for="product in products" :key="product.id">
-            <img :src="`../assets/product-${product.id}.png`"/>
+            <img :src="`/product-${product.id}.png`"/>
             <span class="name">{{`${product.id} - ${product.name}`}}</span>
             <span class="price">{{product.price}}&#x24;</span>
-            <button class="btn">Add to cart <i class="cart"/></button>
+            <button class="btn" @click="addToCart(product)">Add to cart <i class="cart"/></button>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        props: {
-            selectedTab: {
-                type: Number,
-                default: 2
-            },
-        },
+        // props: {
+        //     products: {
+        //         type: Array
+        //     },
+        // },
 
         data: () => {
             return {
@@ -66,8 +65,8 @@
         },
 
         methods: {
-            selectTab(index) {
-                this.$emit('selectTab', index)
+            addToCart(product) {
+                this.$emit('addToCart', product)
             },
         },
     }
