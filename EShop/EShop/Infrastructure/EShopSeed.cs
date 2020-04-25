@@ -13,11 +13,11 @@ namespace EShop.Infrastructure
     {
         public static void CreateSeed(RoDbContext roContext, BgDbContext bgContext, SrDbContext srDbContext, UkDbContext ukDbContext)
         {
-
-            CreateProducts(roContext);
-            CreateProducts(bgContext);
-            CreateProducts(srDbContext);
-            CreateProducts(ukDbContext);
+            List<Product> products = GetProductList();
+            CreateProducts(roContext, products);
+            CreateProducts(bgContext, products);
+            CreateProducts(srDbContext, products);
+            CreateProducts(ukDbContext, products);
             CreateCatalog(roContext);
             CreateCatalog(bgContext);
             CreateCatalog(srDbContext);
@@ -26,13 +26,11 @@ namespace EShop.Infrastructure
 
         }
 
-        private static void CreateProducts(BaseContext context)
+        private static void CreateProducts(BaseContext context, List<Product> products)
         {
-            Random rnd = new Random();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < products.Count; i++)
             {
-                var product = new Product(i % 2 == 0 ? "Nvidia RTX " + i : "Ryzen " + i, i % 2 == 0 ? "GPU NUMBER" + i : "CPU number", 100 * i, rnd.Next(1, 4), i % 2 + 1);
-                context.Products.Add(product);
+                context.Products.Add(products[i]);
                 context.SaveChanges();
             }
         }
@@ -45,6 +43,18 @@ namespace EShop.Infrastructure
             roContext.CatalogItems.Add(new CatalogType("CPU"));
             roContext.SaveChanges();
 
+        }
+
+        private static List<Product> GetProductList()
+        {
+            Random rnd = new Random();
+            List<Product> products = new List<Product>();
+            for (int i = 0; i < 100; i++)
+            {
+                products.Add(new Product(i % 2 == 0 ? "Nvidia RTX " + i : "Ryzen " + i, i % 2 == 0 ? "GPU NUMBER" + i : "CPU number", 100 * i, rnd.Next(1, 4), i % 2 + 1));
+            }
+
+            return products;
         }
     }
 }
