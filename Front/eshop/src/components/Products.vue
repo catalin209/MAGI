@@ -11,11 +11,15 @@
 
 <script>
     export default {
-        // props: {
-        //     products: {
-        //         type: Array
-        //     },
-        // },
+        created() {
+            if (this.productsList.length > 0) this.products = this.productsList
+        },
+
+        props: {
+            productsList: {
+                type: Array
+            },
+        },
 
         data: () => {
             return {

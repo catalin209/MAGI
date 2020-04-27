@@ -8,7 +8,11 @@
         />
         <Filters :selectedFilters="filters" @selectFilters="selectFilters"/>
         <LoadingSpinner v-if="isLoading"/>
-        <Products v-else @addToCart="addToCart"/>
+        <Products 
+            v-else 
+            :productsList="productsList"
+            @addToCart="addToCart"
+        />
         <MyCart 
             v-if="showCart"
             :shopCartData="shopCartData"
@@ -16,7 +20,10 @@
         />
     </div>
     <div v-else class="main-container">
-        <Login @login="login"/>
+        <Login 
+            @login="login"
+            @register="register"
+        />
     </div>
 </template>
 
@@ -41,7 +48,7 @@
 
         created() {
             // eslint-disable-next-line no-console
-            this.loggedIn = true
+            //this.loggedIn = true
         },
 
         props: {
@@ -68,11 +75,12 @@
                 globalSearchName: '',
                 showCart: false,
                 shopCartData: [],
+                productsList: []
             }
         },
 
         computed: {
-
+            
         },
         
         methods: {
@@ -99,8 +107,21 @@
                 }
             },
 
-            showTheCart() {
-                if (this.shopCartData.length > 0) this.showCart = true
+            getProducts() {
+                $.get("http://172.31.47.113:9001/dmag/api/product", this.filters, response =>{
+                    if(response.products){
+                        this.productsList =  response.products
+                    }
+                })
+            },
+
+            showTheCart() { 
+                $.get("http://172.31.47.113:9001/dmag/api/basket/getbasket", {countryId: this.countryId, userId: this.userId}, response =>{
+                    if(response.products){
+                        this.shopCartData =  response.products
+                        if (this.shopCartData.length > 0) this.showCart = true
+                    }
+                })
             },
 
             closeTheCart() {
@@ -108,14 +129,21 @@
             },
 
             addToCart(product) {
-                this.shopCartData.push(product)
+                $.post("http://172.31.47.113:9001/dmag/api/basket/put", {countryId: this.countryId, productId: product.id}, response =>{
+                    if(response){
+                        this.shopCartData.push(product)
+                    }
+                })
             },
 
             selectFilters(f) {
                 this.filters = f
                 if (!this.isLoading) {
                     this.isLoading = true
-                    setTimeout(() => {this.isLoading = false},1000)
+                    setTimeout(() => {
+                        this.getProducts()
+                        this.isLoading = false
+                    },1000)
                 }
             },
 
@@ -128,9 +156,25 @@
             },
 
             login(data) {
-                // eslint-disable-next-line no-console
-                console.log(data)
-                $.get("http://localhost:5000/User/login", {Username : data.username, Password : data.password}, response =>{
+                if (!this.isLoading) {
+                    this.isLoading = true
+                    setTimeout(() => {
+                        $.post("http://172.31.47.113:9001/dmag/api/user/login", {username: data.username, password: data.password}, response =>{
+                            if(response.FirstName){
+                                this.username = response.FirstName + ' ' + response.LastName
+                                this.countryId = response.CountryId
+                                this.userId =  response.id
+                                this.loggedIn = true
+                                this.getProducts()
+                            }
+                        })
+                        this.isLoading = false
+                    },1000)
+                }
+            },
+
+            register(data) {
+                $.post("http://172.31.47.113:9001/dmag/api/user/register", {username: data.username, password: data.password, countryId: data.countryId, firstName: data.firstName, lastName: data.lastName}, response =>{
                     if(response.FirstName){
                         this.username = response.FirstName + ' ' + response.LastName
                         this.countryId = response.CountryId

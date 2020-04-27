@@ -47,7 +47,13 @@
 </template>
 
 <script>
+    import JQuery from 'jquery'
+    let $ = JQuery
     export default {
+        created() {
+            this.getCountries()
+        },
+
         data: () => {
             return {
                 username: '',
@@ -70,8 +76,20 @@
         },
 
         methods: {
+            getCountries() {
+                $.get("http://172.31.47.113:9001/dmag/api/country", response =>{
+                    if(response.countries){
+                        this.countries =  response.countries
+                    }
+                })
+            },
+
             login() {
                 this.$emit('login', {username: this.username, password: this.password})
+            },
+
+            register() {
+                this.$emit('register', {username: this.username, password: this.password, countryId: this.countryId, firstName: this.firstName, lastName: this.lastName})
             },
 
             switchToRegister() {
