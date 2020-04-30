@@ -1,1 +1,1 @@
-#DMAG
+DMAG
